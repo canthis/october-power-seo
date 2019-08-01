@@ -110,22 +110,32 @@ class Plugin extends PluginBase
     {
         \Event::listen('backend.form.extendFields', function ($widget) {
             if (PluginManager::instance()->hasPlugin('RainLab.Pages') && $widget->model instanceof \RainLab\Pages\Classes\Page) {
+
+                if($widget->isNested) {
+                    return;
+                }
+
                 $widget->addFields([
-                    'viewBag[seo_title]' => [
-                        'label' => 'suresoftware.powerseo::lang.editor.meta_title',
-                        'type' => 'text',
-                        'tab' => 'cms::lang.editor.meta'
-                    ],
-                    'viewBag[seo_description]' => [
-                        'label' => 'suresoftware.powerseo::lang.editor.meta_description',
-                        'type' => 'textarea',
-                        'size' => 'tiny',
-                        'tab' => 'cms::lang.editor.meta'
-                    ],
                     'viewBag[seo_keywords]' => [
                         'label' => 'suresoftware.powerseo::lang.editor.meta_keywords',
                         'type' => 'textarea',
-                        'size' => 'tiny',
+                        'size' => 'small',
+                        'span' => 'auto',
+                        'tab' => 'cms::lang.editor.meta'
+                    ],
+                    'viewBag[seo_image]' => [
+                        'label' => 'Open Graph Image',
+                        'type' => 'mediafinder',
+                        'mode' => 'image',
+                        'span' => 'auto',
+                        'imageWidth' => '100',
+                        'imageHeight' => '100',
+                        'tab' => 'cms::lang.editor.meta'
+                    ],
+                    'viewBag[seo_section]' => [
+                        'label' => '',
+                        'type' => 'section',
+                        'span' => 'full',
                         'tab' => 'cms::lang.editor.meta'
                     ],
                     'viewBag[canonical_url]' => [
@@ -162,18 +172,12 @@ class Plugin extends PluginBase
             }
 
             if (PluginManager::instance()->hasPlugin('RainLab.Blog') && $widget->model instanceof \RainLab\Blog\Models\Post) {
+
+                if($widget->isNested) {
+                    return;
+                }
+
                 $widget->addFields([
-                    'powerseo_title' => [
-                        'label' => 'suresoftware.powerseo::lang.editor.meta_title',
-                        'type' => 'text',
-                        'tab' => 'SEO'
-                    ],
-                    'powerseo_description' => [
-                        'label' => 'suresoftware.powerseo::lang.editor.meta_description',
-                        'type' => 'textarea',
-                        'size' => 'tiny',
-                        'tab' => 'SEO'
-                    ],
                     'powerseo_keywords' => [
                         'label' => 'suresoftware.powerseo::lang.editor.meta_keywords',
                         'type' => 'textarea',
@@ -231,8 +235,17 @@ class Plugin extends PluginBase
                         'label' => 'suresoftware.powerseo::lang.editor.meta_keywords',
                         'type' => 'textarea',
                         'tab' => 'cms::lang.editor.meta',
-                        'size' => 'tiny',
+                        'size' => 'small',
                         'placeholder' => "hello"
+                    ],
+                    'viewBag[seo_image]' => [
+                        'label' => 'Open Graph Image',
+                        'type' => 'mediafinder',
+                        'mode' => 'image',
+                        'span' => 'auto',
+                        'imageWidth' => '100',
+                        'imageHeight' => '100',
+                        'tab' => 'cms::lang.editor.meta'
                     ],
                     'settings[canonical_url]' => [
                         'label' => 'suresoftware.powerseo::lang.editor.canonical_url',

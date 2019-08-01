@@ -67,6 +67,14 @@ tabs:
       type: text
       span: left
       tab: suresoftware.powerseo::lang.settings.tab_og.label
+      
+    og_image:
+      label: Default Image for Open Graph
+      type: mediafinder
+      mode: image      
+      imageWidth: 400
+      imageHeight: 400
+      tab: suresoftware.powerseo::lang.settings.tab_og.label
 
 
 

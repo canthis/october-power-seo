@@ -2,11 +2,7 @@
     <meta http-equiv="refresh" content="0; url={{__SELF__.redirect_url}}" />
 {% endif %}
 
-{% if __SELF__.seo_title %}
-    <title>{{__SELF__.seo_title | generateTitle }}</title>
-{% else %}
-    <title>{{ __SELF__.title | generateTitle }}</title>
-{% endif %}
+<title>{{__SELF__.seo_title | generateTitle }}</title>
 
 {% if __SELF__.seo_description %}
     <meta name="description" content="{{__SELF__.seo_description}}">
@@ -22,7 +18,7 @@
     {{ '' | generateCanonicalUrl}}
 {% endif %}
 
-    <meta name="robots" content="{{__SELF__.robot_index}},{{__SELF__.robot_follow}}">
+<meta name="robots" content="{{__SELF__.robot_index}},{{__SELF__.robot_follow}}">
 
 {{ ''|otherMetaTags|raw }}
 
@@ -40,6 +36,10 @@
 
 {% if __SELF__.ogDescription %}
 <meta property="og:description" content="{{ __SELF__.ogDescription }}" />
+{% endif %}
+
+{% if __SELF__.ogImage%}
+<meta property="og:image" content="{{ __SELF__.ogImage|media }}" />
 {% endif %}
 
 {% if __SELF__.ogFbAppId %}

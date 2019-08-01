@@ -46,7 +46,13 @@ class StaticPage extends ComponentBase
 
         // Remove language prefix in case it exists (e.g. from "/en/my-page" to "/my-page")
         if (class_exists('RainLab\Translate\Behaviors\TranslatableModel')) {
-            $url = substr($url, 3);
+            $locales = array_keys($this->page->controller->vars['locales']);
+
+            foreach ($locales as $locale) {
+                if (strpos($url, "{$locale}/") !== FALSE) {
+                    $url = substr($url, 3);
+                }
+            }
         }
 
         if (!strlen($url)) {
@@ -57,9 +63,8 @@ class StaticPage extends ComponentBase
         $this->page = $this->page['page'] = $router->findByUrl($url);
 
         if ($this->page) {
-            $this->seo_title = $this->page['seo_title'] = $this->page->getViewBag()->property('seo_title');
-            $this->title = $this->page['title'] = $this->page->getViewBag()->property('title');
-            $this->seo_description = $this->page['seo_description'] = $this->page->getViewBag()->property('seo_description');
+            $this->seo_title = $this->page['seo_title'] = empty($this->page->meta_title) ? $this->page->title : $this->page->meta_title;            
+            $this->seo_description = $this->page['seo_description'] = $this->page->meta_description;
             $this->seo_keywords = $this->page['seo_keywords'] = $this->page->getViewBag()->property('seo_keywords');
             $this->canonical_url = $this->page['canonical_url'] = $this->page->getViewBag()->property('canonical_url');
             $this->redirect_url = $this->page['redirect_url'] = $this->page->getViewBag()->property('redirect_url');
@@ -73,6 +78,7 @@ class StaticPage extends ComponentBase
                 $this->ogDescription = $this->page->meta_description;
                 $this->ogUrl = empty($this->page->canonical_url) ? Request::url() : $this->page->canonical_url;
                 $this->ogSiteName = $settings->og_sitename;
+                $this->ogImage = empty($this->page->seo_image) ? $settings->og_image : $this->page->seo_image;
                 $this->ogFbAppId = $settings->og_fb_appid;
             }
         }
