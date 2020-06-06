@@ -45,8 +45,12 @@
         <meta property="og:description" content="{{ __SELF__.ogDescription }}" />
     {% endif %}
 
-    {% if __SELF__.ogImage%}
-        <meta property="og:image" content="{{ __SELF__.ogImage|media }}" />
+    {% if __SELF__.ogImage %}
+        {% if 'http' in  __SELF__.ogImage  %}
+            <meta property="og:image" content="{{ __SELF__.ogImage }}" />
+        {% else %}
+            <meta property="og:image" content="{{ __SELF__.ogImage|media }}" />
+        {% endif %}
     {% endif %}
 
     {% if __SELF__.ogFbAppId %}
